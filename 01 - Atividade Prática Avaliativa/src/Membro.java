@@ -1,4 +1,3 @@
-// HERANÇA: Membro herda de Pessoa
 
 public class Membro extends Pessoa {
 

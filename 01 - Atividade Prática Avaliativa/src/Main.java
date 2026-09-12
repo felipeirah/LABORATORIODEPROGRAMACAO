@@ -1,21 +1,15 @@
 import java.util.Scanner;
 
-// Classe principal do programa
-
 public class Main {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-
-        // Cria a biblioteca
         Biblioteca biblioteca = new Biblioteca();
 
         int opcao;
 
         do {
-
-            // Menu principal
             System.out.println("\n===== BIBLIOTECA =====");
             System.out.println("1 - Cadastrar Livro");
             System.out.println("2 - Listar Livros");

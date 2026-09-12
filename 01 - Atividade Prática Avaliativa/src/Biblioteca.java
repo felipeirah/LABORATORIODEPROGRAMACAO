@@ -1,25 +1,15 @@
 import java.util.ArrayList;
 
-// Classe que gerencia todo o sistema
-
 public class Biblioteca {
-
-    // Listas onde ficam armazenados os dados
     ArrayList<Livro> livros = new ArrayList<>();
     ArrayList<Membro> membros = new ArrayList<>();
     ArrayList<Emprestimo> emprestimos = new ArrayList<>();
-
-    // Adiciona um livro
     public void adicionarLivro(Livro l) {
         livros.add(l);
     }
-
-    // Adiciona um membro
     public void adicionarMembro(Membro m) {
         membros.add(m);
     }
-
-    // Lista todos os livros
     public void listarLivros() {
 
         for(int i = 0; i < livros.size(); i++) {
@@ -27,8 +17,6 @@ public class Biblioteca {
         }
 
     }
-
-    // Lista todos os membros
     public void listarMembros() {
 
         for(int i = 0; i < membros.size(); i++) {
@@ -39,8 +27,6 @@ public class Biblioteca {
         }
 
     }
-
-    // Realiza um empréstimo
     public void realizarEmprestimo(int livro, int membro) {
 
         if(livros.get(livro).isDisponivel()) {
@@ -58,8 +44,6 @@ public class Biblioteca {
         }
 
     }
-
-    // Lista empréstimos
     public void listarEmprestimos() {
 
         for(int i = 0; i < emprestimos.size(); i++) {
@@ -67,8 +51,6 @@ public class Biblioteca {
         }
 
     }
-
-    // Devolve um livro
     public void devolver(int indice) {
 
         emprestimos.get(indice).encerrar();

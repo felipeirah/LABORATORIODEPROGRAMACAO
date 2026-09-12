@@ -1,4 +1,3 @@
-// Outra classe que herda de Pessoa
 
 public class Funcionario extends Pessoa {
 
