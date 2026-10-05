@@ -1,0 +1,10 @@
+TUTORIAL DE USO — SISTEMA BANCÁRIO
+
+1. Abra a pasta do projeto no NetBeans ou compile os arquivos da pasta src.
+2. Execute a classe Principal para abrir a tela do Sistema Bancário.
+3. Para testar uma consulta, informe agência 001 e conta 12345; depois clique em Consultar.
+4. Os dados da conta serão preenchidos. Altere um ou mais dados e clique em Atualizar / cadastrar para salvar a alteração.
+5. Para cadastrar uma nova conta, informe uma agência e um número ainda não existentes, clique em Consultar e preencha os dados solicitados. Depois clique em Atualizar / cadastrar.
+6. Se desejar sair da aplicação, clique em Fechar.
+
+Observação: as contas ficam armazenadas somente na memória enquanto o programa estiver aberto.

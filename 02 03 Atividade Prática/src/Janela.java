@@ -1,117 +1,197 @@
-import java.awt.event.KeyEvent;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-/** Formulário bancário da atividade prática 02 | 03. */
+/**
+ * Interface do Sistema Bancário. Ela consulta e atualiza contas armazenadas
+ * em memória; a classe ContaBancaria representa o modelo usado pela tela.
+ *
+ * @author Felipe Junior
+ */
 public class Janela extends JFrame {
-    private JLabel jlAgencia;
-    private JTextField jtfAgencia;
-    private JLabel jlConta;
-    private JTextField jtfConta;
-    private JSeparator jSeparator01;
-    private JLabel jlNome;
-    private JTextField jtfNome;
-    private JLabel jlEndereco;
-    private JTextField jtfEndereco;
-    private JLabel jlTelefone;
-    private JTextField jtfTelefone;
-    private JLabel jlCpf;
-    private JTextField jtfCpf;
-    private JRadioButton jrbCorrente;
-    private JRadioButton jrbPoupanca;
-    private ButtonGroup bgContas;
-    private JSeparator jSeparator02;
-    private JButton jbConsultar;
-    private JButton jbAtualizar;
-    private JButton jbFechar;
+    private final Map<String, ContaBancaria> contas = new HashMap<>();
+    private final JTextField agencia = new JTextField(8);
+    private final JTextField numero = new JTextField(10);
+    private final JTextField nome = new JTextField(24);
+    private final JTextField endereco = new JTextField(24);
+    private final JTextField telefone = new JTextField(16);
+    private final JTextField cpf = new JTextField(16);
+    private final JRadioButton corrente = new JRadioButton("Conta corrente", true);
+    private final JRadioButton poupanca = new JRadioButton("Conta poupança");
+    private final JButton atualizar = new JButton("Atualizar / cadastrar");
 
     public Janela() {
-        super("Laboratório de Programação");
-        setSize(400, 255);
+        super("Sistema Bancário — Atividade Prática 03");
+        criarContaExemplo();
+        montarTela();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(560, 365);
         setLocationRelativeTo(null);
         setResizable(false);
-        getContentPane().setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        criarComponentes();
     }
 
-    private void criarComponentes() {
-        jlAgencia = new JLabel("Código da Agência:");
-        jlAgencia.setBounds(10, 10, 110, 18);
-        add(jlAgencia);
-        jtfAgencia = new JTextField();
-        jtfAgencia.setBounds(125, 10, 50, 20);
-        add(jtfAgencia);
-        jlConta = new JLabel("Número da Conta:");
-        jlConta.setBounds(205, 10, 105, 18);
-        add(jlConta);
-        jtfConta = new JTextField();
-        jtfConta.setBounds(315, 10, 60, 20);
-        add(jtfConta);
-        jSeparator01 = new JSeparator();
-        jSeparator01.setBounds(10, 40, 365, 10);
-        add(jSeparator01);
-
-        jlNome = criarRotuloDireita("Nome:", 10, 50);
-        jtfNome = criarCampo(75, 50);
-        jlEndereco = criarRotuloDireita("Endereço:", 10, 75);
-        jtfEndereco = criarCampo(75, 75);
-        jlTelefone = criarRotuloDireita("Telefone:", 10, 100);
-        jtfTelefone = criarCampo(75, 100);
-        jlCpf = criarRotuloDireita("CPF:", 10, 125);
-        jtfCpf = criarCampo(75, 125);
-
-        jrbCorrente = new JRadioButton("Conta Corrente");
-        jrbCorrente.setBounds(100, 150, 111, 20);
-        jrbCorrente.setMnemonic(KeyEvent.VK_C);
-        jrbCorrente.setSelected(true);
-        add(jrbCorrente);
-        jrbPoupanca = new JRadioButton("Conta Poupança");
-        jrbPoupanca.setBounds(225, 150, 118, 20);
-        jrbPoupanca.setMnemonic(KeyEvent.VK_P);
-        add(jrbPoupanca);
-        bgContas = new ButtonGroup();
-        bgContas.add(jrbCorrente);
-        bgContas.add(jrbPoupanca);
-
-        jSeparator02 = new JSeparator();
-        jSeparator02.setBounds(10, 180, 365, 10);
-        add(jSeparator02);
-        jbConsultar = new JButton("Consultar");
-        jbConsultar.setBounds(35, 190, 100, 23);
-        jbConsultar.setMnemonic(KeyEvent.VK_S);
-        jbConsultar.addActionListener(e -> jbAtualizar.setEnabled(true));
-        add(jbConsultar);
-        jbAtualizar = new JButton("Atualizar");
-        jbAtualizar.setBounds(145, 190, 100, 23);
-        jbAtualizar.setMnemonic(KeyEvent.VK_A);
-        jbAtualizar.setEnabled(false);
-        add(jbAtualizar);
-        jbFechar = new JButton("Fechar");
-        jbFechar.setBounds(225, 190, 100, 23);
-        jbFechar.setMnemonic(KeyEvent.VK_F);
-        jbFechar.addActionListener(e -> dispose());
-        add(jbFechar);
+    private void criarContaExemplo() {
+        ContaBancaria exemplo = new ContaBancaria("001", "12345", "Cliente Exemplo",
+                "Rua Principal, 100", "(00) 00000-0000", "000.000.000-00", "Corrente");
+        contas.put(chave(exemplo.getAgencia(), exemplo.getNumero()), exemplo);
     }
 
-    private JLabel criarRotuloDireita(String texto, int x, int y) {
-        JLabel rotulo = new JLabel(texto);
-        rotulo.setHorizontalAlignment(SwingConstants.RIGHT);
-        rotulo.setBounds(x, y, 60, 18);
-        add(rotulo);
-        return rotulo;
+    private void montarTela() {
+        JPanel conteudo = new JPanel(new BorderLayout(10, 10));
+        conteudo.setBorder(BorderFactory.createEmptyBorder(14, 16, 14, 16));
+        conteudo.add(criarCabecalho(), BorderLayout.NORTH);
+        conteudo.add(criarFormulario(), BorderLayout.CENTER);
+        conteudo.add(criarAcoes(), BorderLayout.SOUTH);
+        setContentPane(conteudo);
+        atualizar.setEnabled(false);
     }
 
-    private JTextField criarCampo(int x, int y) {
-        JTextField campo = new JTextField();
-        campo.setBounds(x, y, 300, 20);
-        add(campo);
-        return campo;
+    private JPanel criarCabecalho() {
+        JPanel painel = new JPanel(new BorderLayout());
+        JLabel titulo = new JLabel("Consulta e atualização de contas");
+        titulo.setHorizontalAlignment(SwingConstants.LEFT);
+        painel.add(titulo, BorderLayout.NORTH);
+        painel.add(new JLabel("Consulte uma conta existente ou informe novos dados para cadastrá-la."), BorderLayout.SOUTH);
+        return painel;
+    }
+
+    private JPanel criarFormulario() {
+        JPanel painel = new JPanel(new GridBagLayout());
+        painel.setBorder(BorderFactory.createTitledBorder("Dados da conta"));
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(5, 5, 5, 5);
+        c.anchor = GridBagConstraints.WEST;
+
+        adicionarLinha(painel, c, 0, "Agência:", agencia);
+        adicionarLinha(painel, c, 1, "Número da conta:", numero);
+        adicionarLinha(painel, c, 2, "Nome:", nome);
+        adicionarLinha(painel, c, 3, "Endereço:", endereco);
+        adicionarLinha(painel, c, 4, "Telefone:", telefone);
+        adicionarLinha(painel, c, 5, "CPF:", cpf);
+
+        c.gridx = 0;
+        c.gridy = 6;
+        painel.add(new JLabel("Tipo:"), c);
+        JPanel tipos = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        ButtonGroup grupo = new ButtonGroup();
+        grupo.add(corrente);
+        grupo.add(poupanca);
+        tipos.add(corrente);
+        tipos.add(poupanca);
+        c.gridx = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        painel.add(tipos, c);
+        return painel;
+    }
+
+    private void adicionarLinha(JPanel painel, GridBagConstraints c, int linha,
+            String rotulo, JTextField campo) {
+        c.gridx = 0;
+        c.gridy = linha;
+        c.weightx = 0;
+        c.fill = GridBagConstraints.NONE;
+        painel.add(new JLabel(rotulo), c);
+        c.gridx = 1;
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 1;
+        painel.add(campo, c);
+    }
+
+    private JPanel criarAcoes() {
+        JPanel painel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton consultar = new JButton("Consultar");
+        JButton fechar = new JButton("Fechar");
+        consultar.addActionListener(e -> consultarConta());
+        atualizar.addActionListener(e -> salvarConta());
+        fechar.addActionListener(e -> dispose());
+        painel.add(consultar);
+        painel.add(atualizar);
+        painel.add(fechar);
+        return painel;
+    }
+
+    private void consultarConta() {
+        if (!identificacaoPreenchida()) {
+            mensagem("Informe a agência e o número da conta para consultar.", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        ContaBancaria conta = contas.get(chave(agencia.getText(), numero.getText()));
+        if (conta == null) {
+            limparDadosCliente();
+            atualizar.setEnabled(true);
+            mensagem("Conta não encontrada. Preencha os dados e clique em Atualizar / cadastrar.", JOptionPane.INFORMATION_MESSAGE);
+            nome.requestFocusInWindow();
+            return;
+        }
+        nome.setText(conta.getNome());
+        endereco.setText(conta.getEndereco());
+        telefone.setText(conta.getTelefone());
+        cpf.setText(conta.getCpf());
+        corrente.setSelected("Corrente".equals(conta.getTipo()));
+        poupanca.setSelected("Poupança".equals(conta.getTipo()));
+        atualizar.setEnabled(true);
+        mensagem("Conta localizada. Altere os dados desejados e clique em Atualizar / cadastrar.", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void salvarConta() {
+        if (!identificacaoPreenchida() || algumDadoDoClienteVazio()) {
+            mensagem("Preencha todos os campos antes de salvar.", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String chave = chave(agencia.getText(), numero.getText());
+        String tipo = corrente.isSelected() ? "Corrente" : "Poupança";
+        ContaBancaria conta = contas.get(chave);
+        if (conta == null) {
+            contas.put(chave, new ContaBancaria(texto(agencia), texto(numero), texto(nome),
+                    texto(endereco), texto(telefone), texto(cpf), tipo));
+            mensagem("Conta cadastrada com sucesso.", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            conta.atualizarDados(texto(nome), texto(endereco), texto(telefone), texto(cpf), tipo);
+            mensagem("Dados da conta atualizados com sucesso.", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private boolean identificacaoPreenchida() {
+        return !texto(agencia).isEmpty() && !texto(numero).isEmpty();
+    }
+
+    private boolean algumDadoDoClienteVazio() {
+        return texto(nome).isEmpty() || texto(endereco).isEmpty()
+                || texto(telefone).isEmpty() || texto(cpf).isEmpty();
+    }
+
+    private void limparDadosCliente() {
+        nome.setText("");
+        endereco.setText("");
+        telefone.setText("");
+        cpf.setText("");
+        corrente.setSelected(true);
+    }
+
+    private String chave(String codigoAgencia, String numeroConta) {
+        return codigoAgencia.trim() + "-" + numeroConta.trim();
+    }
+
+    private String texto(JTextField campo) {
+        return campo.getText().trim();
+    }
+
+    private void mensagem(String texto, int tipo) {
+        JOptionPane.showMessageDialog(this, texto, "Sistema Bancário", tipo);
     }
 }
