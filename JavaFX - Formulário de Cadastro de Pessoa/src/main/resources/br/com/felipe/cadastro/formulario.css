@@ -1,0 +1,46 @@
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: #f6f8fb;
+}
+
+.formulario {
+    -fx-background-color: white;
+    -fx-border-color: #d7dce5;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.label {
+    -fx-text-fill: #27364a;
+    -fx-font-size: 13px;
+}
+
+.titulo {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #17365d;
+}
+
+.subtitulo {
+    -fx-text-fill: #5b6878;
+    -fx-padding: 0 0 8 0;
+}
+
+.text-field, .combo-box {
+    -fx-pref-height: 34px;
+}
+
+.botao-primario {
+    -fx-background-color: #1f6fb2;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 9 18 9 18;
+}
+
+.botao-primario:hover {
+    -fx-background-color: #17598f;
+}
+
+.botao-primario:pressed {
+    -fx-background-color: #124771;
+}
