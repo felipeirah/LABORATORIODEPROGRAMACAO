@@ -1,0 +1,11 @@
+TUTORIAL DE USO — SISTEMA DE BIBLIOTECA
+
+1. Execute o projeto no NetBeans para abrir a Tela Principal.
+2. Clique em Gerenciamento de Livros para cadastrar, selecionar, editar ou remover um livro.
+3. Clique em Gerenciamento de Membros para cadastrar ou editar um membro.
+4. Clique em Gerenciamento de Empréstimos, selecione um livro disponível e um membro e
+   clique em Realizar empréstimo.
+5. Para devolver um livro, selecione o empréstimo na tabela e clique em
+   Encerrar empréstimo. A tabela mostra os empréstimos ativos e encerrados.
+
+Os registros são armazenados em memória durante a execução do programa. Ao fechar o programa, os dados cadastrados são apagados.
